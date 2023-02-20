@@ -1,4 +1,4 @@
-package programmers;
+package programmers.level1;
 
 /**
   코니는 영어 단어가 적힌 카드 뭉치 두 개를 선물로 받았습니다. 코니는 다음과 같은 규칙으로 카드에 적힌 단어들을 사용해 원하는 순서의 단어 배열을 만들 수 있는지 알고 싶습니다.
@@ -22,27 +22,19 @@ package programmers;
  */
 public class CardBundle {
 
-    public static String solution(String[] cards1, String[] cards2, String[] goal) {
+    public String solution(String[] cards1, String[] cards2, String[] goal) {
         int cardsIdx1 = 0;
         int cardsIdx2 = 0;
 
-        String[] result = new String[goal.length];
-
         for (int i=0 ; i<goal.length ; i++) {
-            if ( cardsIdx1 < cards1.length && matchWord(result, i, goal[i], cards1, cardsIdx1) ) cardsIdx1++;
-            if ( cardsIdx2 < cards2.length && matchWord(result, i, goal[i], cards2, cardsIdx2) ) cardsIdx2++;
-            if (!goal[i].equals(result[i])) return "No";
+            // 카드 뭉치에서 단어를 찾고 단어를 찾으면 해당 카드의 인덱스는 넘긴다. 두 카드뭉치에서 단어가 없을경우는 No를 리턴하여 종료.
+            if ( cardsIdx1 < cards1.length && goal[i].equals(cards1[cardsIdx1]) ) cardsIdx1++;
+            else if ( cardsIdx2 < cards2.length && goal[i].equals(cards2[cardsIdx2]) ) cardsIdx2++;
+            else return "No";
         }
-
+        
+        // 정상적으로 for문을 빠져나오면 goal에 해당하는 키워드를 완성한것으로 Yes를 리턴
         return "Yes";
-    }
-
-    public static boolean matchWord(String[] result, int resultIdx, String srcWord, String[] cards, int cardIdx) {
-        if (srcWord.equals(cards[cardIdx])) {
-            result[resultIdx] = srcWord;
-            return true;
-        }
-        return false;
     }
 
     public static void main(String[] args) {
@@ -50,6 +42,6 @@ public class CardBundle {
         String[] cards2 = {"want", "to"};
         String[] goal = {"i", "want", "to", "drink", "water"};
 
-        System.out.println(solution(cards1, cards2, goal));
+        System.out.println(new CardBundle().solution(cards1, cards2, goal));
     }
 }
